@@ -99,8 +99,11 @@
       applyActionCode(auth, oobCode)
         .then(() => {
           loader.style.display = "none";
-          statusEl.innerText = "Email berhasil diverifikasi! Silakan login untuk melanjutkan.";
+          statusEl.innerText = "Email berhasil diverifikasi! Anda akan diarahkan ke halaman login...";
           statusEl.classList.add("success");
+          setTimeout(() => {
+            window.location.href = "login.html"; // Ganti sesuai nama file login kamu
+          }, 3000);
         })
         .catch(error => {
           loader.style.display = "none";
