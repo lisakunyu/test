@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Verifikasi Email</title>
+</head>
+<body>
+  <h2>Memverifikasi email Anda...</h2>
+  <p id="status">Silakan tunggu...</p>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, applyActionCode } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDDB8wgUqtfZUHx0qc6xT97L7oBp-k9nns",
+      authDomain: "viral-cok.firebaseapp.com",
+      projectId: "viral-cok",
+      storageBucket: "viral-cok.firebasestorage.app",
+      messagingSenderId: "465866226747",
+      appId: "1:465866226747:web:cbe62190014be0f1bcf01e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const mode = urlParams.get('mode');
+    const oobCode = urlParams.get('oobCode');
+
+    if (mode === 'verifyEmail' && oobCode) {
+      applyActionCode(auth, oobCode)
+        .then(() => {
+          document.getElementById('status').innerText = "Email berhasil diverifikasi. Anda bisa login sekarang.";
+        })
+        .catch(error => {
+          document.getElementById('status').innerText = "Verifikasi gagal: " + error.message;
+        });
+    } else {
+      document.getElementById('status').innerText = "Permintaan tidak valid.";
+    }
+  </script>
+</body>
+</html>
