@@ -1,12 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Verifikasi Email</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px 20px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #555;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .loader {
+      margin: 20px auto;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #4facfe;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  <h2>Memverifikasi email Anda...</h2>
-  <p id="status">Silakan tunggu...</p>
+  <div class="container">
+    <h2>Memverifikasi Email Anda...</h2>
+    <div class="loader" id="loader"></div>
+    <p id="status">Silakan tunggu beberapa detik.</p>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
@@ -28,16 +92,25 @@
     const mode = urlParams.get('mode');
     const oobCode = urlParams.get('oobCode');
 
+    const statusEl = document.getElementById("status");
+    const loader = document.getElementById("loader");
+
     if (mode === 'verifyEmail' && oobCode) {
       applyActionCode(auth, oobCode)
         .then(() => {
-          document.getElementById('status').innerText = "Email berhasil diverifikasi. Anda bisa login sekarang.";
+          loader.style.display = "none";
+          statusEl.innerText = "Email berhasil diverifikasi! Silakan login untuk melanjutkan.";
+          statusEl.classList.add("success");
         })
         .catch(error => {
-          document.getElementById('status').innerText = "Verifikasi gagal: " + error.message;
+          loader.style.display = "none";
+          statusEl.innerText = "Verifikasi gagal: " + error.message;
+          statusEl.classList.add("error");
         });
     } else {
-      document.getElementById('status').innerText = "Permintaan tidak valid.";
+      loader.style.display = "none";
+      statusEl.innerText = "Tautan verifikasi tidak valid.";
+      statusEl.classList.add("error");
     }
   </script>
 </body>
