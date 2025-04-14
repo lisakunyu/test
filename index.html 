@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viral Video Player</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="video-container">
+    <div id="youtubeVideo"></div>
+    <p id="no-video-message" style="display: none;">
+      No videos available. Please set videos in the admin page.
+    </p>
+    SABAR TUNGGU NANTI JUGA JALAN WAKTUNYA  
+    <button id="downloadButton">Download (20 detik)</button>
+  </div>
+  <script src="script.js" type="module"></script>
+</body>
+</html>
